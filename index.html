@@ -1,15 +1,690 @@
-<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KEMOD — butik</title><meta name="description" content="Sklep odzieżowy KEMOD"><style>
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:#111;background:#fffdfa;font-family:Arial,sans-serif}header{position:absolute;z-index:4;top:0;width:100%;height:82px;padding:0 7vw;display:flex;align-items:center;gap:35px;color:#fff}.brand{font:700 30px Georgia;letter-spacing:.18em;color:inherit;text-decoration:none}nav{margin:auto;display:flex;gap:38px}nav a{color:#fff;text-decoration:none;font-size:12px;letter-spacing:.12em}.account{display:flex;align-items:center;gap:8px}.account button,.owner{border:1px solid #ffffff66;background:transparent;color:#fff;padding:10px 13px;cursor:pointer}.hero{min-height:720px;height:100vh;display:grid;grid-template-columns:1fr 1fr;background:#0b0b0c;color:white}.hero-copy{align-self:center;padding-left:9vw;z-index:2}.eyebrow{color:#c9a84c;text-transform:uppercase;letter-spacing:.24em;font-size:12px;font-weight:bold}.hero h1{font:500 clamp(64px,8vw,126px)/.9 Georgia;margin:.2em 0}.hero p{color:#ccc;line-height:1.7}.hero-photo,.placeholder{display:grid;place-items:center;text-align:center;background:radial-gradient(circle,#2d2921,#111 65%);color:#aaa}.cta{display:inline-block;background:#c9a84c;color:#111;text-decoration:none;padding:16px 24px;margin-top:20px;font-size:12px;font-weight:bold;letter-spacing:.1em}.collection{padding:120px 7vw}.title{display:flex;justify-content:space-between;align-items:end;margin-bottom:50px}.title h2,.about h2{font:500 clamp(48px,6vw,92px)/1 Georgia;margin:.15em 0}.title>p{max-width:420px;color:#68635d;line-height:1.7}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}.card img,.card .placeholder{width:100%;aspect-ratio:4/5;object-fit:cover;background:#e6e2d9}.card h3{font:500 27px Georgia;margin:16px 0 4px}.price{color:#a8862f;font-size:13px}.desc{color:#666;font-size:14px}.about{text-align:center;background:#f2eee5;padding:110px 20px}.about p{max-width:680px;margin:auto;line-height:1.8;color:#666}footer{background:#0b0b0c;color:#fff;padding:60px 7vw;display:flex;justify-content:space-between}dialog{border:1px solid #d8c48d;max-width:900px;width:calc(100% - 30px);max-height:88vh;overflow:auto;padding:25px;background:#fffdfa}dialog::backdrop{background:#0008}.close{float:right;border:0;background:transparent;font-size:24px;cursor:pointer}.form{display:grid;gap:12px}.form input,.form textarea{padding:12px;border:1px solid #ccc}.dark{background:#111;color:white;border:0;padding:13px;cursor:pointer}.switch{border:0;background:none;text-decoration:underline;cursor:pointer}.tabs{display:flex;gap:8px;border-bottom:1px solid #ddd;margin-bottom:18px}.tabs button{padding:10px;border:0;cursor:pointer}.tabs .active{background:#111;color:#fff}.admin-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:22px}.row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;border:1px solid #ddd;padding:10px;margin-bottom:8px}.row small{display:block;color:#777}.row button{padding:7px}.msg{color:#765c1c;font-size:13px}@media(max-width:800px){nav{display:none}.hero{grid-template-columns:1fr}.hero-photo{position:absolute;inset:0;opacity:.25}.hero-copy{padding-right:8vw}.grid{grid-template-columns:1fr 1fr}.admin-grid{grid-template-columns:1fr}.title{display:block}}@media(max-width:520px){header{padding:0 18px}.grid{grid-template-columns:1fr}.account span{display:none}.collection{padding:85px 20px}}
-</style></head><body><header><a class="brand" href="#">KEMOD</a><nav><a href="#kolekcja">KOLEKCJA</a><a href="#onas">O NAS</a><a href="#kontakt">KONTAKT</a></nav><div class="account" id="account"><button onclick="openAuth()">Zaloguj się</button></div></header><section class="hero"><div class="hero-copy"><div class="eyebrow">Butik KEMOD</div><h1>Styl, który<br>jest Twój.</h1><p>Tu pojawi się najnowsza kolekcja KEMOD.</p><a class="cta" href="#kolekcja">ZOBACZ KOLEKCJĘ</a></div><div class="hero-photo">Miejsce na zdjęcie główne</div></section><section class="collection" id="kolekcja"><div class="title"><div><div class="eyebrow">Wybrane dla Ciebie</div><h2>Nasza kolekcja</h2></div><p>Starannie wybrane ubrania i dodatki na co dzień oraz wyjątkowe okazje.</p></div><div class="grid" id="products"></div></section><section class="about" id="onas"><div class="eyebrow">KEMOD</div><h2>Moda blisko Ciebie</h2><p>Starannie wybrane ubrania i dodatki na co dzień oraz wyjątkowe okazje. Odwiedź nas — pomożemy Ci stworzyć stylizację dopasowaną do Ciebie.</p></section><footer id="kontakt"><div><a class="brand" href="#">KEMOD</a><p>Magdalena Matuszewska</p></div><div><b>ODWIEDŹ NAS</b><p>ul. Wawrzyniaka 14<br>62-065 Grodzisk Wielkopolski</p></div></footer>
-<dialog id="auth"><button class="close" onclick="auth.close()">×</button><h2 id="authTitle">Zaloguj się</h2><form class="form" id="authForm"><input id="email" type="email" placeholder="Adres e-mail" required><input id="password" type="password" minlength="6" placeholder="Hasło" required><p class="msg" id="authMsg"></p><button class="dark">Zaloguj się</button></form><button class="switch" id="authSwitch">Nie masz konta? Stwórz konto</button></dialog>
-<dialog id="admin"><button class="close" onclick="admin.close()">×</button><h2>Panel właściciela KEMOD</h2><div class="tabs"><button id="pt" class="active" onclick="showTab('p')">Produkty i zdjęcia</button><button id="ut" onclick="showTab('u')">Konta klientów</button></div><p class="msg" id="adminMsg"></p><div id="productAdmin" class="admin-grid"><form class="form" id="productForm"><h3 id="pfTitle">Dodaj produkt</h3><input id="pname" placeholder="Nazwa produktu" required><input id="pprice" type="number" min="0" step="0.01" placeholder="Cena w zł" required><textarea id="pdesc" placeholder="Opis"></textarea><input id="pfile" type="file" accept="image/*"><button class="dark">Zapisz produkt</button><button type="button" onclick="resetProduct()">Anuluj edycję</button></form><div id="productList"></div></div><div id="userList" hidden></div></dialog>
-<script>
-const URL='https://rtvfkqndokltektlbvzv.supabase.co',KEY='sb_publishable_dK-SQkJUmsaBY5OVfv7J_w_JnaIYJmo',SK='kemod-session',OWNER='i.matuszewski@autograf.pl';let mode='login',editing=null,session=null;const $=id=>document.getElementById(id),hdr=()=>({apikey:KEY,...(session?{Authorization:'Bearer '+session.access_token}:{})});
-async function api(path,o={}){let r=await fetch(URL+path,{...o,headers:{...hdr(),...(o.headers||{})}});let d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.msg||d.error_description||d.message||d.error||'Błąd operacji');return d}function openAuth(){$('auth').showModal()}function setAccount(){let e=session?.user?.email;if(!e){$('account').innerHTML='<button onclick="openAuth()">Zaloguj się</button>';loadProducts();return}$('account').innerHTML=(e.toLowerCase()==OWNER?'<button class="owner" onclick="openAdmin()">Panel właściciela</button>':'')+'<span>'+e+'</span><button onclick="logout()">Wyloguj</button>';loadProducts()}
-try{session=JSON.parse(localStorage.getItem(SK));if(session)api('/auth/v1/user').then(u=>{session.user=u;setAccount()}).catch(()=>logout())}catch{}setAccount();
-$('authSwitch').onclick=()=>{mode=mode==='login'?'register':'login';$('authTitle').textContent=mode==='login'?'Zaloguj się':'Stwórz nowe konto';$('authSwitch').textContent=mode==='login'?'Nie masz konta? Stwórz konto':'Masz konto? Zaloguj się'};$('authForm').onsubmit=async e=>{e.preventDefault();try{let d=await api(mode==='login'?'/auth/v1/token?grant_type=password':'/auth/v1/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('email').value,password:$('password').value})});session=d;localStorage.setItem(SK,JSON.stringify(d));setAccount();$('auth').close()}catch(x){$('authMsg').textContent=x.message}};async function logout(){try{await api('/auth/v1/logout',{method:'POST'})}catch{}localStorage.removeItem(SK);session=null;setAccount()}
-async function loadProducts(){let ps=await api('/rest/v1/kemod_products?select=*&active=eq.true&order=created_at.desc');$('products').innerHTML=ps.length?ps.map(p=>`<article class="card">${p.image_path?`<img src="${URL}/storage/v1/object/public/kemod-products/${p.image_path}" alt="${esc(p.name)}">`:'<div class="placeholder">Brak zdjęcia</div>'}<h3>${esc(p.name)}</h3>${session?`<span class="price">${Number(p.price).toFixed(2)} zł</span>`:'<span class="price">Zaloguj się, aby zobaczyć cenę</span>'}<p class="desc">${esc(p.description||'')}</p></article>`).join(''):[1,2,3].map((_,i)=>`<article class="card"><div class="placeholder">Miejsce na zdjęcie</div><h3>${['Nowości','Eleganckie','Na co dzień'][i]}</h3></article>`).join('')}function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}loadProducts();
-async function openAdmin(){$('admin').showModal();await loadAdminProducts();loadUsers()}function showTab(t){$('productAdmin').hidden=t!=='p';$('userList').hidden=t!=='u';$('pt').className=t==='p'?'active':'';$('ut').className=t==='u'?'active':''}async function loadAdminProducts(){let ps=await api('/rest/v1/kemod_products?select=*&order=created_at.desc');$('productList').innerHTML=ps.map(p=>`<div class="row"><span><b>${esc(p.name)}</b><small>${Number(p.price).toFixed(2)} zł</small></span><button onclick='editProduct(${JSON.stringify(p)})'>Edytuj</button><button onclick="delProduct('${p.id}')">Usuń</button></div>`).join('')}function editProduct(p){editing=p;$('pname').value=p.name;$('pprice').value=p.price;$('pdesc').value=p.description||'';$('pfTitle').textContent='Edytuj produkt'}function resetProduct(){editing=null;$('productForm').reset();$('pfTitle').textContent='Dodaj produkt'}
-$('productForm').onsubmit=async e=>{e.preventDefault();try{let path=editing?.image_path||null,f=$('pfile').files[0];if(f){path=crypto.randomUUID()+'-'+f.name.replace(/[^a-z0-9._-]/gi,'-');let r=await fetch(URL+'/storage/v1/object/kemod-products/'+path,{method:'POST',headers:{...hdr(),'Content-Type':f.type},body:f});if(!r.ok)throw Error('Nie udało się wysłać zdjęcia')}let body={name:$('pname').value,price:Number($('pprice').value),description:$('pdesc').value,image_path:path,active:true};await api('/rest/v1/kemod_products'+(editing?'?id=eq.'+editing.id:''),{method:editing?'PATCH':'POST',headers:{'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(body)});resetProduct();await loadAdminProducts();await loadProducts()}catch(x){$('adminMsg').textContent=x.message}};async function delProduct(id){if(!confirm('Usunąć produkt?'))return;await api('/rest/v1/kemod_products?id=eq.'+id,{method:'DELETE'});loadAdminProducts();loadProducts()}
-async function adminCall(body){return api('/functions/v1/kemod-admin-users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})}async function loadUsers(){try{let d=await adminCall({action:'list'});$('userList').innerHTML=d.users.map(u=>{let b=u.banned_until&&new Date(u.banned_until)>new Date();return `<div class="row"><span><b>${esc(u.email||'')}</b><small>${b?'Zablokowane':'Aktywne'}</small></span><button onclick="toggleUser('${u.id}',${!b})">${b?'Odblokuj':'Zablokuj'}</button><button onclick="deleteUser('${u.id}')">Usuń</button></div>`}).join('')}catch(x){$('adminMsg').textContent=x.message}}async function toggleUser(id,d){if(confirm(d?'Zablokować konto?':'Odblokować konto?')){await adminCall({action:'set_disabled',userId:id,disabled:d});loadUsers()}}async function deleteUser(id){if(confirm('Trwale usunąć konto?')){await adminCall({action:'delete',userId:id});loadUsers()}}
-</script></body></html>
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>KEMOD — butik</title>
+    <meta name="description" content="Sklep odzieżowy KEMOD" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        color: #111;
+        background: #fffdfa;
+        font-family: Arial, sans-serif;
+      }
+      header {
+        position: absolute;
+        z-index: 4;
+        top: 0;
+        width: 100%;
+        height: 82px;
+        padding: 0 7vw;
+        display: flex;
+        align-items: center;
+        gap: 35px;
+        color: #fff;
+      }
+      .brand {
+        font: 700 30px Georgia;
+        letter-spacing: 0.18em;
+        color: inherit;
+        text-decoration: none;
+      }
+      nav {
+        margin: auto;
+        display: flex;
+        gap: 38px;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+      }
+      .account {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .account button,
+      .owner {
+        border: 1px solid #ffffff66;
+        background: transparent;
+        color: #fff;
+        padding: 10px 13px;
+        cursor: pointer;
+      }
+      .hero {
+        min-height: 720px;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: #0b0b0c;
+        color: white;
+      }
+      .hero-copy {
+        align-self: center;
+        padding-left: 9vw;
+        z-index: 2;
+      }
+      .eyebrow {
+        color: #c9a84c;
+        text-transform: uppercase;
+        letter-spacing: 0.24em;
+        font-size: 12px;
+        font-weight: bold;
+      }
+      .hero h1 {
+        font: 500 clamp(64px, 8vw, 126px)/0.9 Georgia;
+        margin: 0.2em 0;
+      }
+      .hero p {
+        color: #ccc;
+        line-height: 1.7;
+      }
+      .hero-photo,
+      .placeholder {
+        display: grid;
+        place-items: center;
+        text-align: center;
+        background: radial-gradient(circle, #2d2921, #111 65%);
+        color: #aaa;
+      }
+      .cta {
+        display: inline-block;
+        background: #c9a84c;
+        color: #111;
+        text-decoration: none;
+        padding: 16px 24px;
+        margin-top: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 0.1em;
+      }
+      .collection {
+        padding: 120px 7vw;
+      }
+      .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin-bottom: 50px;
+      }
+      .title h2,
+      .about h2 {
+        font: 500 clamp(48px, 6vw, 92px)/1 Georgia;
+        margin: 0.15em 0;
+      }
+      .title > p {
+        max-width: 420px;
+        color: #68635d;
+        line-height: 1.7;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+      }
+      .card img,
+      .card .placeholder {
+        width: 100%;
+        aspect-ratio: 4/5;
+        object-fit: cover;
+        background: #e6e2d9;
+      }
+      .card h3 {
+        font: 500 27px Georgia;
+        margin: 16px 0 4px;
+      }
+      .price {
+        color: #a8862f;
+        font-size: 13px;
+      }
+      .desc {
+        color: #666;
+        font-size: 14px;
+      }
+      .about {
+        text-align: center;
+        background: #f2eee5;
+        padding: 110px 20px;
+      }
+      .about p {
+        max-width: 680px;
+        margin: auto;
+        line-height: 1.8;
+        color: #666;
+      }
+      footer {
+        background: #0b0b0c;
+        color: #fff;
+        padding: 60px 7vw;
+        display: flex;
+        justify-content: space-between;
+      }
+      dialog {
+        border: 1px solid #d8c48d;
+        max-width: 900px;
+        width: calc(100% - 30px);
+        max-height: 88vh;
+        overflow: auto;
+        padding: 25px;
+        background: #fffdfa;
+      }
+      dialog::backdrop {
+        background: #0008;
+      }
+      .close {
+        float: right;
+        border: 0;
+        background: transparent;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .form {
+        display: grid;
+        gap: 12px;
+      }
+      .form input,
+      .form textarea {
+        padding: 12px;
+        border: 1px solid #ccc;
+      }
+      .dark {
+        background: #111;
+        color: white;
+        border: 0;
+        padding: 13px;
+        cursor: pointer;
+      }
+      .switch {
+        border: 0;
+        background: none;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .tabs {
+        display: flex;
+        gap: 8px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 18px;
+      }
+      .tabs button {
+        padding: 10px;
+        border: 0;
+        cursor: pointer;
+      }
+      .tabs .active {
+        background: #111;
+        color: #fff;
+      }
+      .admin-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 22px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 8px;
+        align-items: center;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 8px;
+      }
+      .row small {
+        display: block;
+        color: #777;
+      }
+      .row button {
+        padding: 7px;
+      }
+      .msg {
+        color: #765c1c;
+        font-size: 13px;
+      }
+      @media (max-width: 800px) {
+        nav {
+          display: none;
+        }
+        .hero {
+          grid-template-columns: 1fr;
+        }
+        .hero-photo {
+          position: absolute;
+          inset: 0;
+          opacity: 0.25;
+        }
+        .hero-copy {
+          padding-right: 8vw;
+        }
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .admin-grid {
+          grid-template-columns: 1fr;
+        }
+        .title {
+          display: block;
+        }
+      }
+      @media (max-width: 520px) {
+        header {
+          padding: 0 18px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .account span {
+          display: none;
+        }
+        .collection {
+          padding: 85px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="#">KEMOD</a>
+      <nav>
+        <a href="#kolekcja">KOLEKCJA</a><a href="#onas">O NAS</a
+        ><a href="#kontakt">KONTAKT</a>
+      </nav>
+      <div class="account" id="account">
+        <button onclick="openAuth()">Zaloguj się</button>
+      </div>
+    </header>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Butik KEMOD</div>
+        <h1>Styl, który<br />jest Twój.</h1>
+        <p>Tu pojawi się najnowsza kolekcja KEMOD.</p>
+        <a class="cta" href="#kolekcja">ZOBACZ KOLEKCJĘ</a>
+      </div>
+      <div class="hero-photo" id="heroPhoto">Miejsce na zdjęcie główne</div>
+    </section>
+    <section class="collection" id="kolekcja">
+      <div class="title">
+        <div>
+          <div class="eyebrow">Wybrane dla Ciebie</div>
+          <h2>Nasza kolekcja</h2>
+        </div>
+        <p>
+          Starannie wybrane ubrania i dodatki na co dzień oraz wyjątkowe okazje.
+        </p>
+      </div>
+      <div class="grid" id="products"></div>
+    </section>
+    <section class="about" id="onas">
+      <div class="eyebrow">KEMOD</div>
+      <h2>Moda blisko Ciebie</h2>
+      <p>
+        Starannie wybrane ubrania i dodatki na co dzień oraz wyjątkowe okazje.
+        Odwiedź nas — pomożemy Ci stworzyć stylizację dopasowaną do Ciebie.
+      </p>
+    </section>
+    <footer id="kontakt">
+      <div>
+        <a class="brand" href="#">KEMOD</a>
+        <p>Magdalena Matuszewska</p>
+      </div>
+      <div>
+        <b>ODWIEDŹ NAS</b>
+        <p>ul. Wawrzyniaka 14<br />62-065 Grodzisk Wielkopolski</p>
+      </div>
+    </footer>
+    <dialog id="auth">
+      <button class="close" onclick="auth.close()">×</button>
+      <h2 id="authTitle">Zaloguj się</h2>
+      <form class="form" id="authForm">
+        <input
+          id="email"
+          type="email"
+          placeholder="Adres e-mail"
+          required
+        /><input
+          id="password"
+          type="password"
+          minlength="6"
+          placeholder="Hasło"
+          required
+        />
+        <p class="msg" id="authMsg"></p>
+        <button class="dark">Zaloguj się</button>
+      </form>
+      <button class="switch" id="authSwitch">
+        Nie masz konta? Stwórz konto
+      </button>
+    </dialog>
+    <dialog id="admin">
+      <button class="close" onclick="admin.close()">×</button>
+      <h2>Panel właściciela KEMOD</h2>
+      <div class="tabs">
+        <button id="pt" class="active" onclick="showTab('p')">
+          Produkty i zdjęcia</button
+        ><button id="ut" onclick="showTab('u')">Konta klientów</button>
+      </div>
+      <p class="msg" id="adminMsg"></p>
+      <form class="form" id="heroForm" style="margin-bottom:20px;padding:16px;background:#f2eee5">
+        <h3 style="margin:0">Zdjęcie główne strony</h3>
+        <input id="heroFile" type="file" accept="image/*" required />
+        <button class="dark">Zmień zdjęcie główne</button>
+      </form>
+      <div id="productAdmin" class="admin-grid">
+        <form class="form" id="productForm">
+          <h3 id="pfTitle">Dodaj produkt</h3>
+          <input id="pname" placeholder="Nazwa produktu" required /><input
+            id="pprice"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="Cena w zł"
+            required
+          /><textarea id="pdesc" placeholder="Opis"></textarea
+          ><input id="pfile" type="file" accept="image/*" /><button
+            class="dark"
+          >
+            Zapisz produkt</button
+          ><button type="button" onclick="resetProduct()">Anuluj edycję</button>
+        </form>
+        <div id="productList"></div>
+      </div>
+      <div id="userList" hidden></div>
+    </dialog>
+    <script>
+      const URL = "https://rtvfkqndokltektlbvzv.supabase.co",
+        KEY = "sb_publishable_dK-SQkJUmsaBY5OVfv7J_w_JnaIYJmo",
+        SK = "kemod-session",
+        OWNER = "i.matuszewski@autograf.pl";
+      let mode = "login",
+        editing = null,
+        session = null;
+      const $ = (id) => document.getElementById(id),
+        hdr = () => ({
+          apikey: KEY,
+          ...(session
+            ? { Authorization: "Bearer " + session.access_token }
+            : {}),
+        });
+      async function api(path, o = {}) {
+        let r = await fetch(URL + path, {
+          ...o,
+          headers: { ...hdr(), ...(o.headers || {}) },
+        });
+        let d = await r.json().catch(() => ({}));
+        if (!r.ok)
+          throw Error(
+            d.msg ||
+              d.error_description ||
+              d.message ||
+              d.error ||
+              "Błąd operacji",
+          );
+        return d;
+      }
+      function openAuth() {
+        $("auth").showModal();
+      }
+      function setAccount() {
+        let e = session?.user?.email;
+        if (!e) {
+          $("account").innerHTML =
+            '<button onclick="openAuth()">Zaloguj się</button>';
+          loadProducts();
+          return;
+        }
+        $("account").innerHTML =
+          (e.toLowerCase() == OWNER
+            ? '<button class="owner" onclick="openAdmin()">Panel właściciela</button>'
+            : "") +
+          "<span>" +
+          e +
+          '</span><button onclick="logout()">Wyloguj</button>';
+        loadProducts();
+      }
+      try {
+        session = JSON.parse(localStorage.getItem(SK));
+        if (session)
+          api("/auth/v1/user")
+            .then((u) => {
+              session.user = u;
+              setAccount();
+            })
+            .catch(() => logout());
+      } catch {}
+      setAccount();
+      $("authSwitch").onclick = () => {
+        mode = mode === "login" ? "register" : "login";
+        $("authTitle").textContent =
+          mode === "login" ? "Zaloguj się" : "Stwórz nowe konto";
+        $("authSwitch").textContent =
+          mode === "login"
+            ? "Nie masz konta? Stwórz konto"
+            : "Masz konto? Zaloguj się";
+      };
+      $("authForm").onsubmit = async (e) => {
+        e.preventDefault();
+        try {
+          let d = await api(
+            mode === "login"
+              ? "/auth/v1/token?grant_type=password"
+              : "/auth/v1/signup",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: $("email").value,
+                password: $("password").value,
+              }),
+            },
+          );
+          session = d;
+          localStorage.setItem(SK, JSON.stringify(d));
+          setAccount();
+          $("auth").close();
+        } catch (x) {
+          $("authMsg").textContent = x.message;
+        }
+      };
+      async function logout() {
+        try {
+          await api("/auth/v1/logout", { method: "POST" });
+        } catch {}
+        localStorage.removeItem(SK);
+        session = null;
+        setAccount();
+      }
+      async function loadProducts() {
+        let ps = await api(
+          "/rest/v1/kemod_products?select=*&active=eq.true&order=created_at.desc",
+        );
+        $("products").innerHTML = ps.length
+          ? ps
+              .map(
+                (p) =>
+                  `<article class="card">${p.image_path ? `<img src="${URL}/storage/v1/object/public/kemod-products/${p.image_path}" alt="${esc(p.name)}">` : '<div class="placeholder">Brak zdjęcia</div>'}<h3>${esc(p.name)}</h3>${session ? `<span class="price">${Number(p.price).toFixed(2)} zł</span>` : '<span class="price">Zaloguj się, aby zobaczyć cenę</span>'}<p class="desc">${esc(p.description || "")}</p></article>`,
+              )
+              .join("")
+          : [1, 2, 3]
+              .map(
+                (_, i) =>
+                  `<article class="card"><div class="placeholder">Miejsce na zdjęcie</div><h3>${["Nowości", "Eleganckie", "Na co dzień"][i]}</h3></article>`,
+              )
+              .join("");
+      }
+      function esc(s) {
+        return String(s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+      loadProducts();
+      async function loadHero() {
+        try {
+          const rows = await api("/rest/v1/kemod_settings?key=eq.hero_image_path&select=value");
+          const path = rows[0]?.value;
+          if (path) {
+            $("heroPhoto").style.background = `linear-gradient(#0003,#0003),url('${URL}/storage/v1/object/public/kemod-products/${path}') center/cover`;
+            $("heroPhoto").textContent = "";
+          }
+        } catch {}
+      }
+      loadHero();
+      $("heroForm").onsubmit = async (event) => {
+        event.preventDefault();
+        const file = $("heroFile").files[0];
+        if (!file) return;
+        $("adminMsg").textContent = "Wysyłanie zdjęcia…";
+        try {
+          const path = `hero-${crypto.randomUUID()}-${file.name.replace(/[^a-z0-9._-]/gi, "-")}`;
+          const upload = await fetch(`${URL}/storage/v1/object/kemod-products/${path}`, {
+            method: "POST",
+            headers: { ...hdr(), "Content-Type": file.type },
+            body: file,
+          });
+          if (!upload.ok) throw Error("Nie udało się wysłać zdjęcia.");
+          await api("/rest/v1/kemod_settings?key=eq.hero_image_path", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", Prefer: "return=minimal" },
+            body: JSON.stringify({ value: path, updated_at: new Date().toISOString() }),
+          });
+          $("heroForm").reset();
+          $("adminMsg").textContent = "Zdjęcie główne zostało zmienione.";
+          await loadHero();
+        } catch (error) {
+          $("adminMsg").textContent = error.message;
+        }
+      };
+      async function openAdmin() {
+        $("admin").showModal();
+        await loadAdminProducts();
+        loadUsers();
+      }
+      function showTab(t) {
+        $("heroForm").hidden = t !== "p";
+        $("productAdmin").hidden = t !== "p";
+        $("userList").hidden = t !== "u";
+        $("pt").className = t === "p" ? "active" : "";
+        $("ut").className = t === "u" ? "active" : "";
+      }
+      async function loadAdminProducts() {
+        let ps = await api(
+          "/rest/v1/kemod_products?select=*&order=created_at.desc",
+        );
+        $("productList").innerHTML = ps
+          .map(
+            (p) =>
+              `<div class="row"><span><b>${esc(p.name)}</b><small>${Number(p.price).toFixed(2)} zł</small></span><button onclick='editProduct(${JSON.stringify(p)})'>Edytuj</button><button onclick="delProduct('${p.id}')">Usuń</button></div>`,
+          )
+          .join("");
+      }
+      function editProduct(p) {
+        editing = p;
+        $("pname").value = p.name;
+        $("pprice").value = p.price;
+        $("pdesc").value = p.description || "";
+        $("pfTitle").textContent = "Edytuj produkt";
+      }
+      function resetProduct() {
+        editing = null;
+        $("productForm").reset();
+        $("pfTitle").textContent = "Dodaj produkt";
+      }
+      $("productForm").onsubmit = async (e) => {
+        e.preventDefault();
+        try {
+          let path = editing?.image_path || null,
+            f = $("pfile").files[0];
+          if (f) {
+            path =
+              crypto.randomUUID() + "-" + f.name.replace(/[^a-z0-9._-]/gi, "-");
+            let r = await fetch(
+              URL + "/storage/v1/object/kemod-products/" + path,
+              {
+                method: "POST",
+                headers: { ...hdr(), "Content-Type": f.type },
+                body: f,
+              },
+            );
+            if (!r.ok) throw Error("Nie udało się wysłać zdjęcia");
+          }
+          let body = {
+            name: $("pname").value,
+            price: Number($("pprice").value),
+            description: $("pdesc").value,
+            image_path: path,
+            active: true,
+          };
+          await api(
+            "/rest/v1/kemod_products" + (editing ? "?id=eq." + editing.id : ""),
+            {
+              method: editing ? "PATCH" : "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Prefer: "return=minimal",
+              },
+              body: JSON.stringify(body),
+            },
+          );
+          resetProduct();
+          await loadAdminProducts();
+          await loadProducts();
+        } catch (x) {
+          $("adminMsg").textContent = x.message;
+        }
+      };
+      async function delProduct(id) {
+        if (!confirm("Usunąć produkt?")) return;
+        await api("/rest/v1/kemod_products?id=eq." + id, { method: "DELETE" });
+        loadAdminProducts();
+        loadProducts();
+      }
+      async function adminCall(body) {
+        return api("/functions/v1/kemod-admin-users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+      }
+      async function loadUsers() {
+        try {
+          let d = await adminCall({ action: "list" });
+          $("userList").innerHTML = d.users
+            .map((u) => {
+              let b = u.banned_until && new Date(u.banned_until) > new Date();
+              return `<div class="row"><span><b>${esc(u.email || "")}</b><small>${b ? "Zablokowane" : "Aktywne"}</small></span><button onclick="toggleUser('${u.id}',${!b})">${b ? "Odblokuj" : "Zablokuj"}</button><button onclick="deleteUser('${u.id}')">Usuń</button></div>`;
+            })
+            .join("");
+        } catch (x) {
+          $("adminMsg").textContent = x.message;
+        }
+      }
+      async function toggleUser(id, d) {
+        if (confirm(d ? "Zablokować konto?" : "Odblokować konto?")) {
+          await adminCall({ action: "set_disabled", userId: id, disabled: d });
+          loadUsers();
+        }
+      }
+      async function deleteUser(id) {
+        if (confirm("Trwale usunąć konto?")) {
+          await adminCall({ action: "delete", userId: id });
+          loadUsers();
+        }
+      }
+    </script>
+  </body>
+</html>
